@@ -7,6 +7,7 @@ import com.vinurl.gui.MusicDiscScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.io.IOException;
@@ -30,7 +31,8 @@ public class VinURLClient implements ClientModInitializer {
 
 		// Client Music Played Event
 		ClientPlayNetworking.registerGlobalReceiver(VinURL.CUSTOM_RECORD_PACKET_ID, (client, handler, buf, responseSender) -> {
-			Vec3d blockPosition = buf.readBlockPos().toCenterPos();
+			BlockPos blockPos = buf.readBlockPos();
+			Vec3d blockPosition = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			String fileUrl = buf.readString();
 			String fileName = DigestUtils.sha256Hex(fileUrl);
 			client.execute(() -> {
