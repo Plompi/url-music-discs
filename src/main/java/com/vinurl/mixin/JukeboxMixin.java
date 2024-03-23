@@ -3,11 +3,11 @@ package com.vinurl.mixin;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.entity.JukeboxBlockEntity;
-import net.minecraft.inventory.SingleStackInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,8 +15,10 @@ import com.vinurl.VinURL;
 import com.vinurl.items.VinURLDiscItem;
 
 @Mixin(JukeboxBlockEntity.class)
-public abstract class JukeboxMixin extends BlockEntityMixin implements SingleStackInventory {
-	@Inject(at = @At("TAIL"), method = "dropRecord")
+public abstract class JukeboxMixin extends BlockEntityMixin {
+	@Shadow public abstract ItemStack getRecord();
+
+	@Inject(at = @At("TAIL"), method = "clear")
 	public void dropRecord(CallbackInfo ci) {
 		PacketByteBuf bufInfo = PacketByteBufs.create();
 		bufInfo.writeBlockPos(pos);
@@ -29,7 +31,7 @@ public abstract class JukeboxMixin extends BlockEntityMixin implements SingleSta
 
 	@Inject(at = @At("HEAD"), method = "startPlaying")
 	public void startPlaying(CallbackInfo ci) {
-		ItemStack recordStack = this.getStack();
+		ItemStack recordStack = getRecord();
 		if (recordStack.getItem() instanceof VinURLDiscItem && !world.isClient()) {
 			String musicUrl = recordStack.getOrCreateNbt().getString("music_url");
 
