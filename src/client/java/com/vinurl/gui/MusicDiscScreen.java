@@ -28,13 +28,13 @@ public class MusicDiscScreen extends Screen {
 
         this.inputDefaultText = inputDefaultText;
         textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, (width-backgroundWidth)/2 + 62, (height-backgroundHeight)/2 + 18, 103, 12, Text.translatable("container.repair"));
-        this.textField.setTextFieldFocused(true);
         this.textField.setMaxLength(200);
         this.setInitialFocus(this.textField);
         this.textField.setDrawsBackground(false);
         this.textField.setEditableColor(-1);
         this.textField.setFocusUnlocked(false);
         textField.setText(this.inputDefaultText);
+        this.textField.setTextFieldFocused(true);
     }
 
     @Override
