@@ -1,12 +1,13 @@
 package com.vinurl.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.vinurl.VinURL;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -27,13 +28,13 @@ public class MusicDiscScreen extends Screen {
 
         this.inputDefaultText = inputDefaultText;
         textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, (width-backgroundWidth)/2 + 62, (height-backgroundHeight)/2 + 18, 103, 12, Text.translatable("container.repair"));
-        this.textField.setFocused(true);
         this.textField.setMaxLength(200);
         this.setInitialFocus(this.textField);
         this.textField.setDrawsBackground(false);
         this.textField.setEditableColor(-1);
         this.textField.setFocusUnlocked(false);
         textField.setText(this.inputDefaultText);
+        this.textField.setTextFieldFocused(true);
     }
 
     @Override
@@ -41,7 +42,8 @@ public class MusicDiscScreen extends Screen {
         super.init();
         x = (width - backgroundWidth) / 2;
         y = (height - backgroundHeight) / 2;
-        textField.setPosition(x + 62, y + 18);
+        textField.x = x + 62;
+        textField.y = y + 18;
         this.setFocused(this.textField);
         this.addSelectableChild(this.textField);
     }
@@ -63,10 +65,11 @@ public class MusicDiscScreen extends Screen {
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        context.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
-        context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
-        context.drawTexture(TEXTURE, x + 59, y + 14, 0, backgroundHeight, 110, 16);
-        textField.render(context, mouseX, mouseY, delta);
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        fillGradient(matrices, 0, 0, this.width, this.height, -1072689136, -804253680);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        drawTexture(matrices, x , y, 0, 0, backgroundWidth, backgroundHeight);
+        drawTexture(matrices, x + 59, y + 14, 0, backgroundHeight, 110, 16);
+        textField.render(matrices, mouseX, mouseY, delta);
     }
 }
