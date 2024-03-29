@@ -26,26 +26,26 @@ public class MusicDiscScreen extends Screen {
 	public MusicDiscScreen(String inputDefaultText) {
 		super(Text.literal("VinURL Screen"));
 
-        this.inputDefaultText = inputDefaultText;
-        textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, (width-backgroundWidth)/2 + 62, (height-backgroundHeight)/2 + 18, 103, 12, Text.translatable("container.repair"));
-        this.textField.setMaxLength(200);
-        this.setInitialFocus(this.textField);
-        this.textField.setDrawsBackground(false);
-        this.textField.setEditableColor(-1);
-        this.textField.setFocusUnlocked(false);
-        textField.setText(this.inputDefaultText);
-        this.textField.setTextFieldFocused(true);
-    }
+		this.inputDefaultText = inputDefaultText;
+		textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, (width - BACKGROUND_WIDTH) / 2 + 62, (height - BACKGROUND_HEIGHT) / 2 + 18, 103, 12, Text.translatable("container.repair"));
+		this.textField.setMaxLength(200);
+		this.setInitialFocus(this.textField);
+		this.textField.setDrawsBackground(false);
+		this.textField.setEditableColor(-1);
+		this.textField.setFocusUnlocked(false);
+		textField.setText(this.inputDefaultText);
+		this.textField.setTextFieldFocused(true);
+	}
 
-    @Override
-    protected void init() {
-        super.init();
-        x = (width - backgroundWidth) / 2;
-        y = (height - backgroundHeight) / 2;
-        textField.setPos(x + 62, y + 18);
-        this.setFocused(this.textField);
-        this.addSelectableChild(this.textField);
-    }
+	@Override
+	protected void init() {
+		super.init();
+		x = (width - BACKGROUND_WIDTH) / 2;
+		y = (height - BACKGROUND_HEIGHT) / 2;
+		textField.setPos(x + 62, y + 18);
+		this.setFocused(this.textField);
+		this.addSelectableChild(this.textField);
+	}
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -63,12 +63,12 @@ public class MusicDiscScreen extends Screen {
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        fillGradient(matrices, 0, 0, this.width, this.height, -1072689136, -804253680);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        drawTexture(matrices, x , y, 0, 0, backgroundWidth, backgroundHeight);
-        drawTexture(matrices, x + 59, y + 14, 0, backgroundHeight, 110, 16);
-        textField.render(matrices, mouseX, mouseY, delta);
-    }
+	@Override
+	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		fillGradient(matrices, 0, 0, this.width, this.height, -1072689136, -804253680);
+		RenderSystem.setShaderTexture(0, TEXTURE);
+		drawTexture(matrices, x, y, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
+		drawTexture(matrices, x + 59, y + 14, 0, BACKGROUND_HEIGHT, 110, 16);
+		textField.render(matrices, mouseX, mouseY, delta);
+	}
 }
