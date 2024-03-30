@@ -28,9 +28,7 @@ public class MusicDiscScreen extends Screen {
 		super(Text.literal("VinURL Screen"));
 
 		this.inputDefaultText = inputDefaultText;
-		textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, (width - BACKGROUND_WIDTH) / 2 + 62, (height - BACKGROUND_HEIGHT) / 2 + 18, 103, 12, Text.translatable("container.repair"));
 		textField = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, (width - BACKGROUND_WIDTH) / 2 + 62, (height - BACKGROUND_HEIGHT) / 2 + 18, 98, 12, Text.translatable("container.repair"));
-		this.textField.setFocused(true);
 		this.textField.setMaxLength(200);
 		this.setInitialFocus(this.textField);
 		this.textField.setDrawsBackground(false);
@@ -77,5 +75,9 @@ public class MusicDiscScreen extends Screen {
 		drawTexture(matrices, x, y, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
 		drawTexture(matrices, x + 59, y + 14, 0, BACKGROUND_HEIGHT, 110, 16);
 		textField.render(matrices, mouseX, mouseY, delta);
+
+		if (this.textField.getText().isEmpty()) {
+			drawTextWithShadow(matrices, MinecraftClient.getInstance().textRenderer, Text.literal("URL"), this.textField.getX(), this.textField.getY(), 0xAAAAAA);
+		}
 	}
 }
